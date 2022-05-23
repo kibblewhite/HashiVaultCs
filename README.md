@@ -35,7 +35,9 @@ I took inspiration from this article to get me started: https://www.infoq.com/ar
 
 ## Getting Started
 
-You'll need a running Vault service, and although it is beyond the scope of this project, there is included a ```Dockerfile``` and ```docker-compose.yml``` included to help get going ith a postgresql service backend and utlising Vault-Unseal (https://github.com/omegion/vault-unseal).
+You'll need a running Vault service
+- Although it is beyond the scope of this project, there is included a ```Dockerfile``` and ```docker-compose.yml``` included to help get going with a postgresql service backend and utilising Vault-Unseal (https://github.com/omegion/vault-unseal).
+
 Include with this is the config files, entrypoint script which will need configuration (replace the vault shards), and the vault-db.sql for the postgres db.
 
 If you already have a running vault service, you will need to have access to the vault CLI, and then set the vault token environment variable as following:
@@ -57,7 +59,7 @@ apk add nano curl
 
 ## Vault Configurations
 
-- Create a username/password authenication method
+- Create a username/password authentication method
     - This will be used to read role-id values and generate secret-id values from the staging approle secrets only, nothing more.
         - You can see that the paths defined in the ACL policy ```setup/vault/config/policies/approles/staging-userpass.hcl``` will allow access to this part of the system.
     - For the purpose of this documentation we will create a single username/password. However, this will not reflect the "real-world" configurations.
@@ -66,7 +68,7 @@ apk add nano curl
 - Create the approle authentication method
     - Create the ACL policy that will allow access to the KV secrets store as path ```kv/data/staging/*``` - again this can be seen in the policy file ```setup/vault/policies/approle/staging-approle.hcl```
         - Note the extra ```/data/``` path inserted after the ```kv/``` - this is to let the policy know that the path being accessed is for the version 2 secret store (kv-v2), and not version 1.
-    - For the purpose of documentation, we will create an approle named ```staging``` and apply the newly create policy to that approle entry.
+    - For the purpose of documentation, we will create an approle named ```staging``` and apply the newly created policy to that approle entry.
 
 Where it mentions to run a commmand "Only once per database", this means that once the command has been run, you do not need to run it again and can omit that step. If you are working on an existing service using an existing database, you can safely assume that this step has already been done.
 
