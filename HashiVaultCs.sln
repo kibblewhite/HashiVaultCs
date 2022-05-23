@@ -1,0 +1,76 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32516.85
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{DBBEEF2D-A83C-4D94-A3D2-16E41352EBB1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{45A81E28-0CE6-4313-BA86-0D816F986BD3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FBCC82E1-EE2D-40D2-BD57-270645F1B78A}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{588FAB66-3809-467D-B044-211F79B78CBC}"
+	ProjectSection(SolutionItems) = preProject
+		Setup\docker-compose.yml = Setup\docker-compose.yml
+		Setup\Dockerfile = Setup\Dockerfile
+		Setup\vault-db.sql = Setup\vault-db.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vault", "vault", "{467DA82E-F0F8-40F7-97AD-1DDD4E82F6D3}"
+	ProjectSection(SolutionItems) = preProject
+		Setup\vault\entrypoint.sh = Setup\vault\entrypoint.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{D0A469B5-36AF-4B79-B2BD-76DAC965E08E}"
+	ProjectSection(SolutionItems) = preProject
+		Setup\vault\config\default.hcl = Setup\vault\config\default.hcl
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "policies", "policies", "{471704EC-DB71-448C-A62E-DB8D750252AA}"
+	ProjectSection(SolutionItems) = preProject
+		Setup\vault\policies\staging-manage.hcl = Setup\vault\policies\staging-manage.hcl
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "approles", "approles", "{924377C7-9EE3-4E56-BE9F-5A2B17DD25B0}"
+	ProjectSection(SolutionItems) = preProject
+		Setup\vault\policies\approles\staging-approle.hcl = Setup\vault\policies\approles\staging-approle.hcl
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "userpass", "userpass", "{5C028607-C039-45FC-9471-868FEB650A53}"
+	ProjectSection(SolutionItems) = preProject
+		Setup\vault\policies\userpass\staging-userpass.hcl = Setup\vault\policies\userpass\staging-userpass.hcl
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{45A81E28-0CE6-4313-BA86-0D816F986BD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45A81E28-0CE6-4313-BA86-0D816F986BD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45A81E28-0CE6-4313-BA86-0D816F986BD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45A81E28-0CE6-4313-BA86-0D816F986BD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBBEEF2D-A83C-4D94-A3D2-16E41352EBB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBBEEF2D-A83C-4D94-A3D2-16E41352EBB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBBEEF2D-A83C-4D94-A3D2-16E41352EBB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBBEEF2D-A83C-4D94-A3D2-16E41352EBB1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{588FAB66-3809-467D-B044-211F79B78CBC} = {FBCC82E1-EE2D-40D2-BD57-270645F1B78A}
+		{467DA82E-F0F8-40F7-97AD-1DDD4E82F6D3} = {588FAB66-3809-467D-B044-211F79B78CBC}
+		{D0A469B5-36AF-4B79-B2BD-76DAC965E08E} = {467DA82E-F0F8-40F7-97AD-1DDD4E82F6D3}
+		{471704EC-DB71-448C-A62E-DB8D750252AA} = {467DA82E-F0F8-40F7-97AD-1DDD4E82F6D3}
+		{924377C7-9EE3-4E56-BE9F-5A2B17DD25B0} = {471704EC-DB71-448C-A62E-DB8D750252AA}
+		{5C028607-C039-45FC-9471-868FEB650A53} = {471704EC-DB71-448C-A62E-DB8D750252AA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F83908E4-CB64-4919-984D-6E5AD97AB1E2}
+	EndGlobalSection
+EndGlobal

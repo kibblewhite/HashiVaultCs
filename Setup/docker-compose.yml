@@ -1,0 +1,47 @@
+version: '3.7'
+
+## docker-compose build --no-cache && docker-compose -p vault-stack -f docker-compose.yml up -d
+## docker-compose -p vault-stack -f docker-compose.yml down
+
+services:
+
+  vault-svc:
+    container_name: vault-svc
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    expose:
+      - 8200
+    ports:
+      - 8200:8200
+    environment:
+      VAULT_LOG_LEVEL: trace
+      VAULT_ADDR: http://localhost:8200
+      VAULT_API_ADDR: http://localhost:8200
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - vault-server-config:/vault/config/
+      - vault-server-file:/vault/file
+      - vault-server-logs:/vault/logs/
+      - vault-server-plugins:/vault/plugins/
+
+
+volumes:
+
+  vault-server-config:
+    name: vault-server-config
+    driver: local
+
+  vault-server-file:
+    name: vault-server-file
+    driver: local
+
+  vault-server-logs:
+    name: vault-server-logs
+    driver: local
+
+  vault-server-plugins:
+    name: vault-server-plugins
+    driver: local
