@@ -36,8 +36,8 @@ I took inspiration from this article to get me started: https://www.infoq.com/ar
 You'll need a running Vault service
 - Although it is beyond the scope of this project, there is included a ```Dockerfile``` and ```docker-compose.yml``` included to help get going with a postgresql service backend and utilising Vault-Unseal (https://github.com/omegion/vault-unseal).
 
-Include with this is the config files, entrypoint script which will need re-configuration (replace the vault shards) and there is also the vault-db sql for creating the postgres database table(s).
-- It is not possible to offer support to run your Vault Service. Please keep questions and requests limited to the code base only, [thank you](#support).
+Included with this is the config files, entrypoint script which will need re-configuration (replace the vault shards) and there is also the vault-db sql for creating the postgres database table(s).
+- It is not possible to offer support to run your Vault Service. Please keep questions and requests limited to the code base only, thank you.
 
 If you already have a running vault service, you will need to have access to the vault CLI, and then set the vault token environment variable as following:
 

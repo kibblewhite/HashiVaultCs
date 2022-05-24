@@ -1,6 +1,4 @@
-﻿using HashiVaultCs;
-
-namespace HashiVaultCs.Extentions;
+﻿namespace HashiVaultCs.Extentions;
 
 public static class HttpRequestMessageExtentions
 {

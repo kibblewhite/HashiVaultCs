@@ -10,6 +10,16 @@ public sealed class HttpVaultClient : IHttpVaultClient
     private readonly HttpRequestMessage _http_request_message;
     private readonly List<HttpMethod> _supported_http_methods_list = new() { HttpMethod.Get, HttpMethod.Post };
 
+    /// <summary>
+    /// Build the HTTP Client for making requests to the Vault
+    /// </summary>
+    /// <param name="method">GET or POST</param>
+    /// <param name="vault_headers">The Vault specific HTTP headers</param>
+    /// <param name="headers">Any extract HTTP headers</param>
+    /// <param name="request_uri">The URI that will be called, this should include the FQDN, with schema and path and query if needed</param>
+    /// <param name="data">The method will attempt to serialise any incoming data into a JSON string and include it into the body of the request.</param>
+    /// <exception cref="NotSupportedException"></exception>
+    /// <exception cref="ArgumentNullException"></exception>
     public HttpVaultClient(HttpMethod method, HttpVaultHeaders vault_headers, IReadOnlyDictionary<string, string> headers, Uri request_uri, object? data = null)
     {
         // Currently only HTTP Methods GET & POST is supported.
@@ -51,10 +61,11 @@ public sealed class HttpVaultClient : IHttpVaultClient
     }
 
     /// <summary>
+    /// After building the HTTP Client for the Vault, when calling this method, it will take into consideration all the parameters fed into the constructor.
     /// This method will throw an exception if the HTTP response status is anything but a success.
     /// </summary>
     /// <remarks>Only valid JSON is returned from this method through the return of JsonDocument values.</remarks>
-    /// <returns></returns>
+    /// <returns>JsonDocument describing the returned content, that can be then deserialised into a model of choice.</returns>
     public async Task<JsonDocument> SendAsync(CancellationToken cancellationToken = default)
     {
         HttpResponseMessage http_response_message = await _http_client.SendAsync(_http_request_message, cancellationToken);
