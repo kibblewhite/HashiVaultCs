@@ -336,3 +336,8 @@ curl --header "X-Vault-Token: hvs.CAESII17x5GQYw0QhYKi95kxUUjdhi0Q-X1G6fbddsTxQc
 curl --header "X-Vault-Token: hvs.CAESILacrRZCXR-e1GTcitvww7EdFdq7C4ftIRDro6lkE3wZGh4KHGh2cy5iTWhvMDhvcFVFMzQzODZtYm9wVEZEcVA" --request GET http://localhost:8200/v1/kv/data/staging/service-svc
 {"request_id":"30f5d4ec-ccb1-fcc2-f69d-142218651368","lease_id":"","renewable":false,"lease_duration":0,"data":{"data":{"heylo":"world","test":"testing"},"metadata":{"created_time":"2022-05-22T13:42:53.8885279Z","custom_metadata":null,"deletion_time":"","destroyed":false,"version":3}},"wrap_info":null,"warnings":null,"auth":null}
 ```
+
+This is here just to remind me of how to publish to nuget:
+```bash
+dotnet nuget push Client\bin\Release\net6.0\publish\HashiVaultCs.*.nupkg -k [api-key-here /] -s https://api.nuget.org/v3/index.json
+```
