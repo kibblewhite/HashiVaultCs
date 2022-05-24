@@ -17,11 +17,9 @@ With these endpoints it is enough to:
 - With the same userpass vault token, use the role-id and the secret-id to login under the approle authentication method and get a another token which can be then used to read from the kv secrets store.
 - Finally read values from the kv secrets engine store.
 
-To check out some sample code, just head over to the unit test(s) to see this in action, though there they are not complete yet.
+To check out some sample code, just head over to the unit test(s) to see this in action, though they are not yet 100% completed.
 
-In the mean while I'll try to improve the documentation on how to use the code, and place it into a ```README.md``` (not yet created) inside of the ```Client``` project folder.
-
-Even if people don't end up using any of the code, I hope that the documentation below is enough to get the newer amongst us started with HashiCorp Vault (https://www.vaultproject.io/)
+I hope that the documentation below is enough to get the newer amongst us started with HashiCorp Vault (https://www.vaultproject.io/)
 
 I took inspiration from this article to get me started: https://www.infoq.com/articles/creating-http-sdks-dotnet-6/
 
@@ -29,7 +27,7 @@ I took inspiration from this article to get me started: https://www.infoq.com/ar
 - I would like to add some basic reading of PKI secrets and getting certificates into my applications next.
 - After that I would like to add the Wrapping Token concept.
 - Get HTTPs finally working on localhost at least.
-- Finally wire it up in a way that can be used with Dependancy Injection.
+- Finally wire it up in a way that can be used with Dependancy Injection, even in it's limited form.
 
 ------
 
@@ -38,7 +36,8 @@ I took inspiration from this article to get me started: https://www.infoq.com/ar
 You'll need a running Vault service
 - Although it is beyond the scope of this project, there is included a ```Dockerfile``` and ```docker-compose.yml``` included to help get going with a postgresql service backend and utilising Vault-Unseal (https://github.com/omegion/vault-unseal).
 
-Include with this is the config files, entrypoint script which will need configuration (replace the vault shards), and the vault-db.sql for the postgres db.
+Include with this is the config files, entrypoint script which will need re-configuration (replace the vault shards) and there is also the vault-db sql for creating the postgres database table(s).
+- It is not possible to offer support to run your Vault Service. Please keep questions and requests limited to the code base only, [thank you](#support).
 
 If you already have a running vault service, you will need to have access to the vault CLI, and then set the vault token environment variable as following:
 
