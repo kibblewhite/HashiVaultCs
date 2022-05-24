@@ -25,7 +25,7 @@ I took inspiration from this article to get me started: https://www.infoq.com/ar
 
 ##### What's next...
 - I would like to add some basic reading of PKI secrets and getting certificates into my applications next.
-- After that I would like to add the Wrapping Token concept.
+- After that I would like to add the [Wrapping Token concept](https://www.vaultproject.io/docs/concepts/response-wrapping).
 - Get HTTPs finally working on localhost at least.
 - Finally wire it up in a way that can be used with Dependancy Injection, even in it's limited form.
 
