@@ -10,7 +10,7 @@ public sealed class HttpVaultClient : IHttpVaultClient
     private readonly HttpRequestMessage _http_request_message;
     private readonly List<HttpMethod> _supported_http_methods_list = new() { HttpMethod.Get, HttpMethod.Post };
 
-    public HttpVaultClient(HttpMethod method, HttpVaultHeaders vault_headers, IReadOnlyDictionary<string, string> headers, Uri request_uri, object? content = null)
+    public HttpVaultClient(HttpMethod method, HttpVaultHeaders vault_headers, IReadOnlyDictionary<string, string> headers, Uri request_uri, object? data = null)
     {
         // Currently only HTTP Methods GET & POST is supported.
         if (_supported_http_methods_list.Contains(method) is false)
@@ -27,9 +27,9 @@ public sealed class HttpVaultClient : IHttpVaultClient
         // Generate HTTP Request Message and set content
         _http_request_message = new(method, request_uri)
         {
-            Content = content is null
+            Content = data is null
                 ? null
-                : new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, _media_type)
+                : new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, _media_type)
         };
 
         // Build the HTTP Headers, both custom and Vault Specific HTTP Headers.

@@ -208,7 +208,7 @@ vault read auth/approle/role/staging/role-id
 vault write -f auth/approle/role/staging/secret-id
 ```
 
-Generate a token using the previously create role-id and newly created secret-id. 
+Generate a token using the previously retrieved role-id and newly created secret-id. 
 Important: Save the ```token``` value as the '*approle-token*' for use later...
 ```bash
 vault write auth/approle/login role_id=<role-id /> secret_id=<secret-id />
