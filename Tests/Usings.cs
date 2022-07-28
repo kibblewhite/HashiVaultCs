@@ -5,3 +5,4 @@ global using HashiVaultCs.Models.Requests.Secrets;
 global using HashiVaultCs.Models.Responses;
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
 global using System.Collections.Immutable;
+global using System.Text.Json;

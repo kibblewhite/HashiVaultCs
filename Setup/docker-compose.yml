@@ -1,12 +1,13 @@
 version: '3.7'
 
-## docker-compose build --no-cache && docker-compose -p vault-stack -f docker-compose.yml up -d
-## docker-compose -p vault-stack -f docker-compose.yml down
+## docker-compose build --no-cache && docker-compose -p vault-svc-stack -f docker-compose.yml up -d
+## docker-compose -p vault-svc-stack -f docker-compose.yml down
 
 services:
 
   vault-svc:
     container_name: vault-svc
+    image: vault-svc
     build:
       context: .
       dockerfile: Dockerfile
@@ -17,10 +18,14 @@ services:
       - 8200:8200
     environment:
       VAULT_LOG_LEVEL: trace
-      VAULT_ADDR: http://localhost:8200
-      VAULT_API_ADDR: http://localhost:8200
+      VAULT_ADDR: https://localhost:8200
+      VAULT_API_ADDR: https://localhost:8200
+      DATABASE_URL: postgres://postgres:postgres@host.docker.internal:5432/postgres
+      PORT: 8200
     cap_add:
       - IPC_LOCK
+    networks:
+      - vault-bridge
     volumes:
       - vault-server-config:/vault/config/
       - vault-server-file:/vault/file
@@ -45,3 +50,10 @@ volumes:
   vault-server-plugins:
     name: vault-server-plugins
     driver: local
+
+
+networks:
+
+  vault-bridge:
+    name: vault-bridge
+    external: false

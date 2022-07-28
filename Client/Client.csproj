@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<AssemblyName>HashiVaultCs</AssemblyName>
 		<RootNamespace>HashiVaultCs</RootNamespace>
-		<Version>1.1.1.1</Version>
+		<Version>1.1.1.2</Version>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Authors>kibblewhite &lt;kibblewhite@live.com&gt;</Authors>
 		<Description>A .NET library for interacting with HashiCorp Vault. Features are minimal, please read documentation.</Description>
@@ -14,8 +14,8 @@
 		<PackageIcon>csharp-vault-hashicorp.png</PackageIcon>
 		<RepositoryUrl>https://github.com/kibblewhite/HashiVaultCs</RepositoryUrl>
 		<PackageTags>HashiCorp;Vault;</PackageTags>
-		<AssemblyVersion>1.1.1.1</AssemblyVersion>
-		<FileVersion>1.1.1.1</FileVersion>
+		<AssemblyVersion>1.1.1.2</AssemblyVersion>
+		<FileVersion>1.1.1.2</FileVersion>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
 

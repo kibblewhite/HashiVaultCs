@@ -1,0 +1,11 @@
+*
+!.gitignore
+!README.md
+*.crt
+*.csr
+*.key
+*.pem
+*.p12
+*.b64
+*.pfx
+*.cnf

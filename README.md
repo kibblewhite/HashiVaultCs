@@ -24,10 +24,9 @@ I hope that the documentation below is enough to get the newer amongst us starte
 I took inspiration from this article to get me started: https://www.infoq.com/articles/creating-http-sdks-dotnet-6/
 
 ##### What's next...
+- Adding ARM64 support - timing this after Visual Studio 17.3 preview/rc release (and some of the issues have been ironed out)
 - I would like to add some basic reading of PKI secrets and getting certificates into my applications next.
 - After that I would like to add the [Wrapping Token concept](https://www.vaultproject.io/docs/concepts/response-wrapping).
-- Get HTTPs finally working on localhost at least.
-- Finally wire it up in a way that can be used with Dependancy Injection, even in it's limited form.
 
 ------
 
@@ -35,6 +34,8 @@ I took inspiration from this article to get me started: https://www.infoq.com/ar
 
 You'll need a running Vault service
 - Although it is beyond the scope of this project, there is included a ```Dockerfile``` and ```docker-compose.yml``` included to help get going with a postgresql service backend and utilising Vault-Unseal (https://github.com/omegion/vault-unseal).
+- You might need to change the `DATABASE_URL` environment variable in the `docker-compose.yml` file. Currently it is set to connect to a postgres instance running on the docker's hosting machine.'
+- If it is a first run of the vault service, you will need to [establish the vault's unsealing tokens](https://learn.hashicorp.com/tutorials/vault/getting-started-ui) and re-run the build process with at least two of the vault tokens configured correctly in the `unseal.sh` script.
 
 Included with this is the config files, entrypoint script which will need re-configuration (replace the vault shards) and there is also the vault-db sql for creating the postgres database table(s).
 - It is not possible to offer support to run your Vault Service. Please keep questions and requests limited to the code base only, thank you.
@@ -46,6 +47,18 @@ export VAULT_TOKEN=<vault-token-value />
 ```
 
 The vault token value can be the root vault token or other valid vault token.
+
+### First Run of Vault
+
+Once the SSL certificates are generated, and you have built the Docker image (run the commands found in the `docker-compose.yml` file) you will need to visit the vault start up screen and generate the unseal keys.
+
+Take at least two of the keys and place them into the `unseal.sh` file and the  re-run the docker build command in the `docker-compose.yml` in order for the key to be carried across.
+
+You may even want to manually remove the old image from your docker instance to be sure using the command below, where `vault-svc` is the name of the image being built:
+
+```bash
+docker rmi vault-svc
+```
 
 ### Other Tools
 

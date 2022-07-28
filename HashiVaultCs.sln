@@ -24,6 +24,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vault", "vault", "{467DA82E-F0F8-40F7-97AD-1DDD4E82F6D3}"
 	ProjectSection(SolutionItems) = preProject
 		Setup\vault\entrypoint.sh = Setup\vault\entrypoint.sh
+		Setup\vault\unseal.sh = Setup\vault\unseal.sh
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{D0A469B5-36AF-4B79-B2BD-76DAC965E08E}"
@@ -44,6 +45,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "userpass", "userpass", "{5C028607-C039-45FC-9471-868FEB650A53}"
 	ProjectSection(SolutionItems) = preProject
 		Setup\vault\policies\userpass\staging-userpass.hcl = Setup\vault\policies\userpass\staging-userpass.hcl
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "certs", "certs", "{0E04ECBE-3F10-43DA-ACBD-79CF5780950A}"
+	ProjectSection(SolutionItems) = preProject
+		Setup\vault\config\certs\.gitignore = Setup\vault\config\certs\.gitignore
+		Setup\vault\config\certs\README.md = Setup\vault\config\certs\README.md
 	EndProjectSection
 EndProject
 Global
@@ -71,6 +78,7 @@ Global
 		{471704EC-DB71-448C-A62E-DB8D750252AA} = {467DA82E-F0F8-40F7-97AD-1DDD4E82F6D3}
 		{924377C7-9EE3-4E56-BE9F-5A2B17DD25B0} = {471704EC-DB71-448C-A62E-DB8D750252AA}
 		{5C028607-C039-45FC-9471-868FEB650A53} = {471704EC-DB71-448C-A62E-DB8D750252AA}
+		{0E04ECBE-3F10-43DA-ACBD-79CF5780950A} = {D0A469B5-36AF-4B79-B2BD-76DAC965E08E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F83908E4-CB64-4919-984D-6E5AD97AB1E2}

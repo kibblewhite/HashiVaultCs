@@ -5,4 +5,5 @@ namespace HashiVaultCs.Interfaces.Auth;
 public interface IUserpassClient : IVaultClient
 {
     Task<Secret> LoginAsync(string username, Login data, IImmutableDictionary<string, string> headers, CancellationToken cancellationToken = default);
+    Secret Login(string username, Login data, IImmutableDictionary<string, string> headers, CancellationToken cancellationToken = default);
 }

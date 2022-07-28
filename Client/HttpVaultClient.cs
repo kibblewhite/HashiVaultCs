@@ -9,6 +9,12 @@ public sealed class HttpVaultClient : IHttpVaultClient
     private readonly HttpClient _http_client;
     private readonly HttpRequestMessage _http_request_message;
     private readonly List<HttpMethod> _supported_http_methods_list = new() { HttpMethod.Get, HttpMethod.Post };
+    private static readonly JsonDocumentOptions _jdo = new()
+    {
+        AllowTrailingCommas = false,
+        CommentHandling = JsonCommentHandling.Disallow,
+        MaxDepth = 32
+    };
 
     /// <summary>
     /// Build the HTTP Client for making requests to the Vault
@@ -50,7 +56,14 @@ public sealed class HttpVaultClient : IHttpVaultClient
             _http_request_message.Headers.Add(kvp.Key, kvp.Value);
         }
 
-        HttpClientHandler handler = new();
+        // Alway allow returning certificate by using DangerousAcceptAnyServerCertificateValidator <- this will need improvement in the future to allow the choice or not to accept any server certificate
+        HttpClientHandler handler = new()
+        {
+            ClientCertificateOptions = ClientCertificateOption.Manual,
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                // (http_request_message, cert, chain, policy_errors) => true
+        };
+
         _http_client = new(handler)
         {
             Timeout = _http_client_timeout
@@ -71,13 +84,17 @@ public sealed class HttpVaultClient : IHttpVaultClient
         HttpResponseMessage http_response_message = await _http_client.SendAsync(_http_request_message, cancellationToken);
         http_response_message.EnsureSuccessStatusCode();
         string response_json = await http_response_message.Content.ReadAsStringAsync(cancellationToken);
-        JsonDocumentOptions jdo = new()
-        {
-            AllowTrailingCommas = false,
-            CommentHandling = JsonCommentHandling.Disallow,
-            MaxDepth = 32
-        };
-        JsonDocument document = JsonDocument.Parse(response_json, jdo);
-        return document;
+        return JsonDocument.Parse(response_json, _jdo);
+    }
+
+    /// <inheritdoc cref="SendAsync"/>
+    public JsonDocument Send(CancellationToken cancellationToken = default)
+    {
+        HttpResponseMessage http_response_message = _http_client.Send(_http_request_message, cancellationToken);
+        http_response_message.EnsureSuccessStatusCode();
+        Stream response_stream = http_response_message.Content.ReadAsStream(cancellationToken);
+        using StreamReader response_stream_reader = new(response_stream, true);
+        string response_json = response_stream_reader.ReadToEnd();
+        return JsonDocument.Parse(response_json, _jdo);
     }
 }

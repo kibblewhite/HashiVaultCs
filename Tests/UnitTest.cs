@@ -1,5 +1,3 @@
-using System.Text.Json;
-
 namespace Tests;
 
 [TestClass]
@@ -15,7 +13,7 @@ public partial class UnitTest
 
     public UnitTest()
     {
-        _base_address = "http://localhost:8200";
+        _base_address = "https://localhost:8200";
         _username = "username";
         _password = "password";
         _rolename = "staging";
@@ -35,10 +33,10 @@ public partial class UnitTest
 
         // Login to the vault using our userpass authentication creditials
         UserpassClient userpass_client = new(HttpVaultHeaders.Build(vault_headers), _base_address);
-        Secret userpass_login_response = userpass_client.LoginAsync(_username, new HashiVaultCs.Models.Requests.Auth.Userpass.Login
+        Secret userpass_login_response = userpass_client.Login(_username, new HashiVaultCs.Models.Requests.Auth.Userpass.Login
         {
             Password = _password
-        }, ImmutableDictionary<string, string>.Empty).Result;
+        }, ImmutableDictionary<string, string>.Empty);
 
         // Check that the ClientToken is present and use this next for our Vault Token
         Assert.IsNotNull(userpass_login_response.Auth?.ClientToken);
@@ -51,21 +49,21 @@ public partial class UnitTest
         ApproleClient approle_client = new(HttpVaultHeaders.Build(vault_headers), _base_address);
 
         // Get the role-id and generate a secret-id for the approle 'staging' as logged in user
-        Secret approle_roleid_response = approle_client.RoleIdAsync(_rolename, ImmutableDictionary<string, string>.Empty).Result;
+        Secret approle_roleid_response = approle_client.RoleId(_rolename, ImmutableDictionary<string, string>.Empty);
         string? role_id = approle_roleid_response.Data?.RootElement.GetProperty("role_id").GetString();
         Assert.IsNotNull(role_id);
 
         // Generate a secret-id
-        Secret approle_secretid_response = approle_client.SecretIdAsync(_rolename, ImmutableDictionary<string, string>.Empty).Result;
+        Secret approle_secretid_response = approle_client.SecretId(_rolename, ImmutableDictionary<string, string>.Empty);
         string? secret_id = approle_secretid_response.Data?.RootElement.GetProperty("secret_id").GetString();
         Assert.IsNotNull(secret_id);
 
         // Generate a token using the previously retrieved role-id and newly created secret-id. 
-        Secret approle_login_response = approle_client.LoginAsync(new HashiVaultCs.Models.Requests.Auth.Approle.Login
+        Secret approle_login_response = approle_client.Login(new HashiVaultCs.Models.Requests.Auth.Approle.Login
         {
             RoleId = role_id,
             SecretId = secret_id
-        }, ImmutableDictionary<string, string>.Empty).Result;
+        }, ImmutableDictionary<string, string>.Empty);
         Assert.IsNotNull(approle_login_response.Auth?.ClientToken);
 
         // Set the vault header to contain the newly created ClientToken from the AppRole Login (ApproleClient.LoginAsync(...))
@@ -94,10 +92,10 @@ public partial class UnitTest
         };
         SecretData secret_data = new(model, typeof(TestingModel));
 
-        Secret data_post_response = data_client.PostAsync(_engine, _secrets_path, secret_data, ImmutableDictionary<string, string>.Empty).Result;
+        Secret data_post_response = data_client.Post(_engine, _secrets_path, secret_data, ImmutableDictionary<string, string>.Empty);
         bool? destroyed = data_post_response.Data?.RootElement.GetProperty("destroyed").GetBoolean();
 
-        Secret data_get_response = data_client.GetAsync(_engine, _secrets_path, ImmutableDictionary<string, string>.Empty).Result;
+        Secret data_get_response = data_client.Get(_engine, _secrets_path, ImmutableDictionary<string, string>.Empty);
         string? response_json = data_get_response.Data?.RootElement.GetProperty("data").GetRawText();
 
         TestingModel? response_model = JsonSerializer.Deserialize<TestingModel>(response_json ?? "{}");

@@ -11,4 +11,3 @@ path "auth/approle/role/staging/secret-id" {
 path "auth/approle/role/staging/role-id" {
    capabilities = [ "read" ]
 }
-
