@@ -33,12 +33,12 @@ I took inspiration from this article to get me started: https://www.infoq.com/ar
 ## Getting Started
 
 You'll need a running Vault service
-- Although it is beyond the scope of this project, there is included a ```Dockerfile``` and ```docker-compose.yml``` included to help get going with a postgresql service backend and utilising Vault-Unseal (https://github.com/omegion/vault-unseal).
-- You might need to change the `DATABASE_URL` environment variable in the `docker-compose.yml` file. Currently it is set to connect to a postgres instance running on the docker's hosting machine.'
-- If it is a first run of the vault service, you will need to [establish the vault's unsealing tokens](https://learn.hashicorp.com/tutorials/vault/getting-started-ui) and re-run the build process with at least two of the vault tokens configured correctly in the `unseal.sh` script.
+- Although it is beyond the scope of this project, there is included a ```Dockerfile``` and ```docker-compose.yml``` included to help get going with a postgresql service backend and utilising a Vault-Unseal script `unseal.sh`.
+- You might need to change the `DATABASE_URL` environment variable in the `docker-compose.yml` file. Currently it is set to connect to a postgres instance running on the docker's hosting machine.
+- If it is a first run of the vault service, you will need to [establish the vault's unsealing tokens](https://learn.hashicorp.com/tutorials/vault/getting-started-ui) and then first update the `unseal.sh` with at least two of the vault tokens configured correctly and then re-run the build process with the command from the `docker-compose build --no-cache` found in the `docker-compose.yml`.
 
-Included with this is the config files, entrypoint script which will need re-configuration (replace the vault shards) and there is also the vault-db sql for creating the postgres database table(s).
-- It is not possible to offer support to run your Vault Service. Please keep questions and requests limited to the code base only, thank you.
+Included with this is the config files, entrypoint script and there is also the vault-db sql for creating the postgres database table(s).
+>  It is not possible to offer support to run your Vault Service. Please keep questions and requests limited to the code base only, thank you.
 
 If you already have a running vault service, you will need to have access to the vault CLI, and then set the vault token environment variable as following:
 
@@ -58,13 +58,6 @@ You may even want to manually remove the old image from your docker instance to 
 
 ```bash
 docker rmi vault-svc
-```
-
-### Other Tools
-
-When using the CLI directly on the vault server (running alpine linux), there are a few tools that might need to be installed to make life easier.
-```bash
-apk add nano curl
 ```
 
 ------
@@ -158,6 +151,15 @@ vault write -f auth/approle/role/staging/secret-id
 Generate token
 ```bash
 vault write auth/approle/login role_id=<role-id /> secret_id=<secret-id />
+```
+
+Congratulations, you should now have a valid token which can be used to obtain key-value pairs from the vault.
+
+To finish you can execute the following, where the approle-token was produced from the previous generate token vault write command:
+```bash
+rm -Rf ~/.vault-token
+export VAULT_TOKEN=<approle-token />
+vault kv get kv/staging/service-svc
 ```
 
 The generation of the token above is just to test if the process has worked.
