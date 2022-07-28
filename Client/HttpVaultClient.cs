@@ -93,7 +93,7 @@ public sealed class HttpVaultClient : IHttpVaultClient
     {
         HttpResponseMessage http_response_message = _http_client.Send(_http_request_message, cancellationToken);
         http_response_message.EnsureSuccessStatusCode();
-        Stream response_stream = http_response_message.Content.ReadAsStream(cancellationToken);
+        using Stream response_stream = http_response_message.Content.ReadAsStream(cancellationToken);
         using StreamReader response_stream_reader = new(response_stream, true);
         string response_json = response_stream_reader.ReadToEnd();
         return JsonDocument.Parse(response_json, _jdo);
