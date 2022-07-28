@@ -32,7 +32,7 @@ public partial class UnitTest
         Dictionary<string, string> vault_headers = new();
 
         // Login to the vault using our userpass authentication creditials
-        UserpassClient userpass_client = new(HttpVaultHeaders.Build(vault_headers), _base_address);
+        UserpassClient userpass_client = new(HttpVaultHeaders.Build(vault_headers), _base_address, HttpClientHandler.DangerousAcceptAnyServerCertificateValidator);
         Secret userpass_login_response = userpass_client.Login(_username, new HashiVaultCs.Models.Requests.Auth.Userpass.Login
         {
             Password = _password
@@ -46,7 +46,7 @@ public partial class UnitTest
         vault_headers.Add(HttpVaultHeaderKey.Token, userpass_login_response.Auth.ClientToken);
 
         // Create the AppRole client in order to send requests against
-        ApproleClient approle_client = new(HttpVaultHeaders.Build(vault_headers), _base_address);
+        ApproleClient approle_client = new(HttpVaultHeaders.Build(vault_headers), _base_address, HttpClientHandler.DangerousAcceptAnyServerCertificateValidator);
 
         // Get the role-id and generate a secret-id for the approle 'staging' as logged in user
         Secret approle_roleid_response = approle_client.RoleId(_rolename, ImmutableDictionary<string, string>.Empty);
@@ -71,7 +71,7 @@ public partial class UnitTest
         vault_headers.Add(HttpVaultHeaderKey.Token, approle_login_response.Auth.ClientToken);
 
         // Create the Data Client to use for reading and writing kv secrets
-        DataClient data_client = new(HttpVaultHeaders.Build(vault_headers), _base_address);
+        DataClient data_client = new(HttpVaultHeaders.Build(vault_headers), _base_address, HttpClientHandler.DangerousAcceptAnyServerCertificateValidator);
         return data_client;
     }
 

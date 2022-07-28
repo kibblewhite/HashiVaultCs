@@ -2,6 +2,8 @@
 global using HashiVaultCs.Extentions;
 global using HashiVaultCs.Models.Responses;
 global using System.Collections.Immutable;
+global using System.Net.Security;
+global using System.Security.Cryptography.X509Certificates;
 global using System.Text;
 global using System.Text.Json;
 global using System.Text.Json.Serialization;

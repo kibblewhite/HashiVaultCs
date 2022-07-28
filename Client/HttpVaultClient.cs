@@ -1,4 +1,6 @@
 ﻿using HashiVaultCs.Interfaces;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 namespace HashiVaultCs;
 
@@ -24,9 +26,10 @@ public sealed class HttpVaultClient : IHttpVaultClient
     /// <param name="headers">Any extract HTTP headers</param>
     /// <param name="request_uri">The URI that will be called, this should include the FQDN, with schema and path and query if needed</param>
     /// <param name="data">The method will attempt to serialise any incoming data into a JSON string and include it into the body of the request.</param>
+    /// <param name="server_certificate_custom_validation_callback">The delegate for handling SSL server certificate validation. It is part of the HttpClientHandler and can be used to manage self-signed certificates.</param>
     /// <exception cref="NotSupportedException"></exception>
     /// <exception cref="ArgumentNullException"></exception>
-    public HttpVaultClient(HttpMethod method, HttpVaultHeaders vault_headers, IReadOnlyDictionary<string, string> headers, Uri request_uri, object? data = null)
+    public HttpVaultClient(HttpMethod method, HttpVaultHeaders vault_headers, IReadOnlyDictionary<string, string> headers, Uri request_uri, object? data = null, Func<HttpRequestMessage, X509Certificate2?, X509Chain?, SslPolicyErrors, bool>? server_certificate_custom_validation_callback = null)
     {
         // Currently only HTTP Methods GET & POST is supported.
         if (_supported_http_methods_list.Contains(method) is false)
@@ -56,13 +59,11 @@ public sealed class HttpVaultClient : IHttpVaultClient
             _http_request_message.Headers.Add(kvp.Key, kvp.Value);
         }
 
-        // Alway allow returning certificate by using DangerousAcceptAnyServerCertificateValidator <- this will need improvement in the future to allow the choice or not to accept any server certificate
-        HttpClientHandler handler = new()
+        HttpClientHandler handler = new();
+        if (server_certificate_custom_validation_callback is not null)
         {
-            ClientCertificateOptions = ClientCertificateOption.Manual,
-            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-                // (http_request_message, cert, chain, policy_errors) => true
-        };
+            handler.ServerCertificateCustomValidationCallback = server_certificate_custom_validation_callback;
+        }
 
         _http_client = new(handler)
         {
