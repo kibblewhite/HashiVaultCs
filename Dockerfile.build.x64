@@ -1,0 +1,26 @@
+## Build: docker build --no-cache -t hashivaultcs:dev-x64 --file Dockerfile.build.x64 .
+## Once the image is built, get the list of avaiable images in the local docker registry: docker image ls
+## Run the following command with corresponding the image id: docker run --name hashivaultcs-dev-x64 -td <image-id />
+## This will run an empry container (nothing will happen) - you can connect and grab the files from it
+
+FROM mcr.microsoft.com/dotnet/runtime:6.0-focal-amd64 AS base-x64
+WORKDIR /app
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal-amd64 AS build-x64
+WORKDIR /src-x64
+
+COPY ["Client/Client.csproj", "Client/"]
+RUN dotnet restore "Client/Client.csproj"
+COPY . .
+
+WORKDIR "/src-x64/Client"
+RUN dotnet build "Client.csproj" --os linux -a x64 -c Release -o /app/build-x64/bin/Release/net6.0/linux-x64
+RUN dotnet build "Client.csproj" --os win -a x64 -c Release -o /app/build-x64/bin/Release/net6.0/win-x64
+
+FROM build-x64 AS publish-x64
+RUN dotnet publish "Client.csproj" --os linux -a x64 -c Release -o /app/publish-x64/bin/Release/net6.0/linux-x64
+RUN dotnet publish "Client.csproj" --os win -a x64 -c Release -o /app/publish-x64/bin/Release/net6.0/win-x64
+
+FROM base-x64 AS final-x64
+WORKDIR /app
+COPY --from=publish-x64 /app/publish-x64/bin/Release ./runtime/x64/

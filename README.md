@@ -25,6 +25,8 @@ I took inspiration from this article to get me started: https://www.infoq.com/ar
 
 ##### What's next...
 - Adding ARM64 support - timing this after Visual Studio 17.3 preview/rc release (and some of the issues have been ironed out)
+  - In the `.output` directory I generated a bunch of assemblies for win and linux x64 and arm64 platforms (the build process in documented using the Dockerfiles)
+  - There appears to little to no difference between the assembly files (loaded them into hexcmp) which leads me to believe under these conditions there is no need to generate both x64 and arm64 binaries for the nuget packages.
 - I would like to add some basic reading of PKI secrets and getting certificates into my applications next.
 - After that I would like to add the [Wrapping Token concept](https://www.vaultproject.io/docs/concepts/response-wrapping).
 
@@ -354,5 +356,7 @@ curl --header "X-Vault-Token: hvs.CAESILacrRZCXR-e1GTcitvww7EdFdq7C4ftIRDro6lkE3
 
 This is here just to remind me of how to publish to nuget:
 ```bash
+dotnet build -c Release
+dotnet pack -c Release -o Client\bin\Release\net6.0\publish
 dotnet nuget push Client\bin\Release\net6.0\publish\HashiVaultCs.*.nupkg -k [api-key-here /] -s https://api.nuget.org/v3/index.json
 ```
