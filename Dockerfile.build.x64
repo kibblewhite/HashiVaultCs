@@ -1,7 +1,7 @@
 ## Build: docker build --no-cache -t hashivaultcs:dev-x64 --file Dockerfile.build.x64 .
 ## Once the image is built, get the list of avaiable images in the local docker registry: docker image ls
 ## Run the following command with corresponding the image id: docker run --name hashivaultcs-dev-x64 -td <image-id />
-## This will run an empry container (nothing will happen) - you can connect and grab the files from it
+## This will run an empty container (nothing will happen) - connect and retrieve the files from /app/runtime
 
 FROM mcr.microsoft.com/dotnet/runtime:6.0-focal-amd64 AS base-x64
 WORKDIR /app
