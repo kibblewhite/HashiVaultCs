@@ -1,10 +1,10 @@
 ## Build: docker build --no-cache --build-arg NUGET_KEY=<replace-nuget-api-key-here /> --build-arg NUGET_URL=https://api.nuget.org/v3/index.json --file Dockerfile.nuget.publish .
 ## This will publish the Client project to the public nuget registry
 
-FROM mcr.microsoft.com/dotnet/runtime:6.0-focal-amd64 AS base-x64
+FROM mcr.microsoft.com/dotnet/runtime:7.0-jammy-amd64 AS base-x64
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0-focal-amd64 AS build-x64
+FROM mcr.microsoft.com/dotnet/sdk:7.0-jammy-amd64 AS build-x64
 ARG NUGET_KEY
 ARG NUGET_URL
 WORKDIR /src-x64
@@ -14,6 +14,6 @@ RUN dotnet restore "Client/Client.csproj"
 COPY . .
 
 WORKDIR "/src-x64/Client"
-RUN dotnet build "Client.csproj" -c Release -o /app/build-x64/bin/Release/net6.0
-RUN dotnet pack "Client.csproj" -c Release -o /app/build-x64/bin/Release/net6.0/publish
+RUN dotnet build "Client.csproj" -c Release -o /app/build-x64/bin/Release/net7.0
+RUN dotnet pack "Client.csproj" -c Release -o /app/build-x64/bin/Release/net7.0/publish
 RUN dotnet nuget push /app/build-x64/bin/Release/net6.0/publish/HashiVaultCs.*.nupkg -s $NUGET_URL -k $NUGET_KEY

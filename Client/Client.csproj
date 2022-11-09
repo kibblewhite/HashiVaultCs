@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<AssemblyName>HashiVaultCs</AssemblyName>
 		<RootNamespace>HashiVaultCs</RootNamespace>
-		<Version>1.1.1.4</Version>
+		<Version>1.1.1.5</Version>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<Authors>kibblewhite &lt;kibblewhite@live.com&gt;</Authors>
 		<Description>A .NET library for interacting with HashiCorp Vault. Features are minimal, please read documentation.</Description>
@@ -14,8 +14,8 @@
 		<PackageIcon>csharp-vault-hashicorp.png</PackageIcon>
 		<RepositoryUrl>https://github.com/kibblewhite/HashiVaultCs</RepositoryUrl>
 		<PackageTags>HashiCorp;Vault;</PackageTags>
-		<AssemblyVersion>1.1.1.4</AssemblyVersion>
-		<FileVersion>1.1.1.4</FileVersion>
+		<AssemblyVersion>1.1.1.5</AssemblyVersion>
+		<FileVersion>1.1.1.5</FileVersion>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<ApplicationIcon>csharp-vault-hashicorp.ico</ApplicationIcon>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
