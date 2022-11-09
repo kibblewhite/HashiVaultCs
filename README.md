@@ -354,10 +354,10 @@ curl --header "X-Vault-Token: hvs.CAESILacrRZCXR-e1GTcitvww7EdFdq7C4ftIRDro6lkE3
 {"request_id":"30f5d4ec-ccb1-fcc2-f69d-142218651368","lease_id":"","renewable":false,"lease_duration":0,"data":{"data":{"heylo":"world","test":"testing"},"metadata":{"created_time":"2022-05-22T13:42:53.8885279Z","custom_metadata":null,"deletion_time":"","destroyed":false,"version":3}},"wrap_info":null,"warnings":null,"auth":null}
 ```
 
-This is here just to remind me of how to publish to nuget:
+This is here just to remind me of how to publish to nuget, however do refer to the `Dockerfile.nuget.publish` file:
 
 ```bash
-docker run -it --entrypoint "/bin/bash mcr.microsoft.com/dotnet/sdk:7.0-jammy-amd64"
+docker run -it --entrypoint "/bin/bash" "mcr.microsoft.com/dotnet/sdk:7.0-jammy-amd64"
 git clone https://github.com/kibblewhite/HashiVaultCs.git
 cd HashiVaultCs
 dotnet build -c Release
