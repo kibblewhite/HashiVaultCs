@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.9'
 
 ## docker-compose build --no-cache && docker-compose -p vault-svc-stack -f docker-compose.yml up -d
 ## docker-compose -p vault-svc-stack -f docker-compose.yml down
@@ -6,8 +6,8 @@ version: '3.7'
 services:
 
   vault-svc:
-    container_name: vault-svc
-    image: vault-svc
+    container_name: vault
+    image: hashicorp/vault:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -18,8 +18,8 @@ services:
       - 8200:8200
     environment:
       VAULT_LOG_LEVEL: trace
-      VAULT_ADDR: https://localhost:8200
-      VAULT_API_ADDR: https://localhost:8200
+      VAULT_ADDR: http://localhost:8200
+      VAULT_API_ADDR: http://localhost:8200
       DATABASE_URL: postgres://postgres:postgres@host.docker.internal:5432/postgres
       PORT: 8200
     cap_add:

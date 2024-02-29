@@ -1,8 +1,10 @@
-﻿namespace HashiVaultCs.Interfaces;
+﻿using HashiVaultCs.Models;
+
+namespace HashiVaultCs.Interfaces;
 
 public interface IHttpVaultClient
 {
-    Task<JsonDocument> SendAsync(CancellationToken cancellationToken = default);
+    Task<JsonDocumentResult> SendAsync(CancellationToken cancellationToken = default);
 
-    JsonDocument Send(CancellationToken cancellationToken = default);
+    JsonDocumentResult Send(CancellationToken cancellationToken = default);
 }

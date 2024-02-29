@@ -2,18 +2,11 @@
 
 namespace HashiVaultCs.Clients;
 
-public abstract class MustInitialiseHttpVaultHeadersAndHostAbstraction<T> where T : IHttpVaultHeaders
+public abstract class MustInitialiseHttpVaultHeadersAndHostAbstraction<T>(T vault_headers, string base_address, Func<HttpRequestMessage, X509Certificate2?, X509Chain?, SslPolicyErrors, bool>? server_certificate_custom_validation_callback = null) where T : IHttpVaultHeaders
 {
-    protected Func<HttpRequestMessage, X509Certificate2?, X509Chain?, SslPolicyErrors, bool>? _server_certificate_custom_validation_callback;
-    protected readonly T vault_headers;
-    protected readonly Uri base_uri;
-
-    public MustInitialiseHttpVaultHeadersAndHostAbstraction(T vault_headers, string base_address, Func<HttpRequestMessage, X509Certificate2?, X509Chain?, SslPolicyErrors, bool>? server_certificate_custom_validation_callback = null)
-    {
-        this.vault_headers = vault_headers;
-        base_uri = new Uri(base_address);
-        _server_certificate_custom_validation_callback = server_certificate_custom_validation_callback;
-    }
+    protected Func<HttpRequestMessage, X509Certificate2?, X509Chain?, SslPolicyErrors, bool>? _server_certificate_custom_validation_callback = server_certificate_custom_validation_callback;
+    protected readonly T vault_headers = vault_headers;
+    protected readonly Uri base_uri = new(base_address);
 
     /// <summary>
     /// Set the HttpClientHandler ServerCertificateCustomValidationCallback.

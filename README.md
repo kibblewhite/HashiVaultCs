@@ -46,6 +46,7 @@ If you already have a running vault service, you will need to have access to the
 
 ```bash
 export VAULT_TOKEN=<vault-token-value />
+export VAULT_ADDR=http://127.0.0.1:8200
 ```
 
 The vault token value can be the root vault token or other valid vault token.
