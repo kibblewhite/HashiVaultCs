@@ -1,10 +1,10 @@
 ## Build: docker build --no-cache --build-arg NUGET_KEY=<replace-nuget-api-key-here /> --build-arg NUGET_URL=https://api.nuget.org/v3/index.json --file Dockerfile.nuget.publish .
 ## This will publish the Client project to the public nuget registry
 
-FROM mcr.microsoft.com/dotnet/runtime:7.0-jammy-amd64 AS base-x64
+FROM mcr.microsoft.com/dotnet/runtime:8.0-jammy-amd64 AS base-x64
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0-jammy-amd64 AS build-x64
+FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy-amd64 AS build-x64
 ARG NUGET_KEY
 ARG NUGET_URL
 WORKDIR /src-x64
