@@ -8,8 +8,8 @@ storage "postgresql" {
 listener "tcp" {
   address                             = "0.0.0.0:8200"
   tls_disable                         = false
-  tls_cert_file                       = "/vault/config/certs/key-vault-db.crt"
-  tls_key_file                        = "/vault/config/certs/key-vault-db.pem"
+  tls_cert_file                       = "/vault/config/certs/vault-svc.crt"
+  tls_key_file                        = "/vault/config/certs/vault-svc.pem"
   tls_disable_client_certs            = true 
   tls_require_and_verify_client_cert  = false
 

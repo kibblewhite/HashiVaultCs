@@ -1,6 +1,7 @@
 *
 !.gitignore
 !README.md
+!req.cnf
 *.crt
 *.csr
 *.key
@@ -8,4 +9,3 @@
 *.p12
 *.b64
 *.pfx
-*.cnf

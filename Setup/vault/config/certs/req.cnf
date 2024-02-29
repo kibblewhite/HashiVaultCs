@@ -1,0 +1,21 @@
+[dn]
+CN = vault-svc
+
+[req]
+distinguished_name = dn
+x509_extensions = v3_req
+prompt = no
+
+[v3_req]
+authorityKeyIdentifier = keyid, issuer
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = vault-db
+DNS.2 = vault-svc
+DNS.3 = vault-svc.internal.local
+DNS.4 = 127.0.0.1
+DNS.5 = localhost
+IP.1 = 127.0.0.1

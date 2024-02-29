@@ -1,12 +1,14 @@
 ## Generating Self-Signed SSL Certificates for Vault 
 
-Place the following text into a request configuration file named `req.cnf`, perhaps in a sperate folder.
+Prerequisites: Have openssl installed
+
+Place the following text into a request configuration file named `req.cnf`.
 
 In this example we have placed this into a subdirectory `vault/config/certs` to build our certificate's key, pem and crt files.
 
 ```
 [dn]
-CN = key-vault-svc
+CN = vault-svc
 
 [req]
 distinguished_name = dn
@@ -20,35 +22,34 @@ extendedKeyUsage = serverAuth
 subjectAltName = @alt_names
 
 [alt_names]
-DNS.1 = key-vault-db
-DNS.2 = key-vault-svc
-DNS.3 = key-vault-svc.domain-atom.tld
+DNS.1 = vault-db
+DNS.2 = vault-svc
+DNS.3 = vault-svc.internal.local
 DNS.4 = 127.0.0.1
 DNS.5 = localhost
 IP.1 = 127.0.0.1
 ```
 
-> PEM Pass Phrase: <set-what-ever-you-want-it-to-be-here />
-> Leave export passwords empty/blank
+> PEM Pass Phrase: vault-svc
 
 Generate the key file
 ```bash
-openssl genrsa -des3 -out key-vault-db.key 2048
+openssl genrsa -des3 -out vault-svc.key 2048
 ```
 
 Use the key file and the request configurations `req.cnf` created earlier to create the certificate.
 ```bash
-openssl req -x509 -new -nodes -key key-vault-db.key -sha256 -days 5475 -out key-vault-db.crt -config req.cnf
+openssl req -x509 -new -nodes -key vault-svc.key -sha256 -days 5475 -out vault-svc.crt -config req.cnf
 ```
 
 RSA-Encrypt the key file into our pem file.
 ```bash
-openssl rsa -in key-vault-db.key -out key-vault-db.pem
+openssl rsa -in vault-svc.key -out vault-svc.pem
 ```
 
 Manually check that the certificate is valid. Check that the 'X509v3 Subject Alternative Name' are present and correct as configured in the `req.cnf` file.
 ```bash
-openssl x509 -in key-vault-db.crt -text
+openssl x509 -in vault-svc.crt -text
 ```
 
 ### Connecting via the Vault CLI using the Self-Signed SSL Certificate

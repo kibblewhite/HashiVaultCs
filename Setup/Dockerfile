@@ -1,13 +1,13 @@
-FROM vault:latest
+FROM hashicorp/vault:latest
 ENV IMAGE_NAME="vault-svc"
 LABEL name="vault-svc"
 
 RUN apk update && apk add bash curl nano
 
 ## Follow the README.md in the Setup/vault/config/certs directory
-COPY vault/config/certs/key-vault-db.crt /vault/config/certs/key-vault-db.crt
-COPY vault/config/certs/key-vault-db.pem /vault/config/certs/key-vault-db.pem
-COPY vault/config/certs/key-vault-db.key /vault/config/certs/key-vault-db.key
+COPY vault/config/certs/vault-svc.crt /vault/config/certs/vault-svc.crt
+COPY vault/config/certs/vault-svc.pem /vault/config/certs/vault-svc.pem
+COPY vault/config/certs/vault-svc.key /vault/config/certs/vault-svc.key
 
 COPY vault/config/default.hcl /vault/config/default.hcl
 COPY vault/unseal.sh /vault/unseal.sh

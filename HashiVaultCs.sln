@@ -56,6 +56,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "certs", "certs", "{0E04ECBE
 	ProjectSection(SolutionItems) = preProject
 		Setup\vault\config\certs\.gitignore = Setup\vault\config\certs\.gitignore
 		Setup\vault\config\certs\README.md = Setup\vault\config\certs\README.md
+		Setup\vault\config\certs\req.cnf = Setup\vault\config\certs\req.cnf
+		Setup\vault\config\certs\vault-svc.crt = Setup\vault\config\certs\vault-svc.crt
+		Setup\vault\config\certs\vault-svc.key = Setup\vault\config\certs\vault-svc.key
+		Setup\vault\config\certs\vault-svc.pem = Setup\vault\config\certs\vault-svc.pem
 	EndProjectSection
 EndProject
 Global

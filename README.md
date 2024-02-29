@@ -39,7 +39,7 @@ You'll need a running Vault service
 - You might need to change the `DATABASE_URL` environment variable in the `docker-compose.yml` file. Currently it is set to connect to a postgres instance running on the docker's hosting machine.
 - If it is a first run of the vault service, you will need to [establish the vault's unsealing tokens](https://learn.hashicorp.com/tutorials/vault/getting-started-ui) and then first update the `unseal.sh` with at least two of the vault tokens configured correctly and then re-run the build process with the command from the `docker-compose build --no-cache` found in the `docker-compose.yml`.
 
-Included with this is the config files, entrypoint script and there is also the vault-db sql for creating the postgres database table(s).
+Included with this is the config files, entrypoint script and there is also the vault sql for creating the postgres database table(s).
 >  It is not possible to offer support to run your Vault Service. Please keep questions and requests limited to the code base only, thank you.
 
 If you already have a running vault service, you will need to have access to the vault CLI, and then set the vault token environment variable as following:
@@ -51,17 +51,7 @@ export VAULT_ADDR=http://127.0.0.1:8200
 
 The vault token value can be the root vault token or other valid vault token.
 
-### First Run of Vault
 
-Once the SSL certificates are generated, and you have built the Docker image (run the commands found in the `docker-compose.yml` file) you will need to visit the vault start up screen and generate the unseal keys.
-
-Take at least two of the keys and place them into the `unseal.sh` file and the  re-run the docker build command in the `docker-compose.yml` in order for the key to be carried across.
-
-You may even want to manually remove the old image from your docker instance to be sure using the command below, where `vault-svc` is the name of the image being built:
-
-```bash
-docker rmi vault-svc
-```
 
 ------
 
