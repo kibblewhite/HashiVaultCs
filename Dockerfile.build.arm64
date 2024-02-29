@@ -14,12 +14,12 @@ RUN dotnet restore "Client/Client.csproj"
 COPY . .
 
 WORKDIR "/src-arm64/Client"
-RUN dotnet build "Client.csproj" --os linux -a arm64 -c Release -o /app/build-arm64/bin/Release/net7.0/linux-arm64
-RUN dotnet build "Client.csproj" --os win -a arm64 -c Release -o /app/build-arm64/bin/Release/net7.0/win-arm64
+RUN dotnet build "Client.csproj" --os linux -a arm64 -c Release -o /app/build-arm64/bin/Release/net8.0/linux-arm64
+RUN dotnet build "Client.csproj" --os win -a arm64 -c Release -o /app/build-arm64/bin/Release/net8.0/win-arm64
 
 FROM build-arm64 AS publish-arm64
-RUN dotnet publish "Client.csproj" --os linux -a arm64 -c Release -o /app/publish-arm64/bin/Release/net7.0/linux-arm64
-RUN dotnet publish "Client.csproj" --os win -a arm64 -c Release -o /app/publish-arm64/bin/Release/net7.0/win-arm64
+RUN dotnet publish "Client.csproj" --os linux -a arm64 -c Release -o /app/publish-arm64/bin/Release/net8.0/linux-arm64
+RUN dotnet publish "Client.csproj" --os win -a arm64 -c Release -o /app/publish-arm64/bin/Release/net8.0/win-arm64
 
 FROM base-arm64 AS final-arm64
 WORKDIR /app
