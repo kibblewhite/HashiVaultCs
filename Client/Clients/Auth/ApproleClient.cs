@@ -4,12 +4,12 @@ using HashiVaultCs.Models.Requests.Auth.Approle;
 
 namespace HashiVaultCs.Clients.Auth;
 
-public sealed class ApproleClient(HttpVaultHeaders vault_headers, string base_address, Func<HttpRequestMessage, X509Certificate2?, X509Chain?, SslPolicyErrors, bool>? server_certificate_custom_validation_callback = null) : MustInitialiseHttpVaultHeadersAndHostAbstraction<HttpVaultHeaders>(vault_headers, base_address, server_certificate_custom_validation_callback), IApproleClient
+public sealed class ApproleClient(IHttpClientFactory http_client_factory, HttpVaultHeaders vault_headers, string base_address) : MustInitialiseHttpVaultHeadersAndHostAbstraction<HttpVaultHeaders>(vault_headers, base_address), IApproleClient
 {
     public async Task<Secret> LoginAsync(Login data, IImmutableDictionary<string, string> headers, CancellationToken cancellationToken = default)
     {
         Uri request_uri = new(base_uri, ApiUrl.AuthApproleLogin);
-        HttpVaultClient http_vault_client = new(HttpMethod.Post, vault_headers, headers, request_uri, data, _server_certificate_custom_validation_callback);
+        HttpVaultClient http_vault_client = new(http_client_factory, HttpMethod.Post, vault_headers, headers, request_uri, data);
         JsonDocumentResult response = await http_vault_client.SendAsync(cancellationToken);
         return response.Failed is true
             ? Secret.Failure(response.Error)
@@ -19,7 +19,7 @@ public sealed class ApproleClient(HttpVaultHeaders vault_headers, string base_ad
     public Secret Login(Login data, IImmutableDictionary<string, string> headers, CancellationToken cancellationToken = default)
     {
         Uri request_uri = new(base_uri, ApiUrl.AuthApproleLogin);
-        HttpVaultClient http_vault_client = new(HttpMethod.Post, vault_headers, headers, request_uri, data, _server_certificate_custom_validation_callback);
+        HttpVaultClient http_vault_client = new(http_client_factory, HttpMethod.Post, vault_headers, headers, request_uri, data);
         JsonDocumentResult response = http_vault_client.Send(cancellationToken);
         return response.Failed is true
             ? Secret.Failure(response.Error)
@@ -30,7 +30,7 @@ public sealed class ApproleClient(HttpVaultHeaders vault_headers, string base_ad
     {
         string relative_url = ApiUrl.AuthApproleRoleId.FormatWith(new { rolename });
         Uri request_uri = new(base_uri, relative_url);
-        HttpVaultClient http_vault_client = new(HttpMethod.Get, vault_headers, headers, request_uri, null, _server_certificate_custom_validation_callback);
+        HttpVaultClient http_vault_client = new(http_client_factory, HttpMethod.Get, vault_headers, headers, request_uri, null);
         JsonDocumentResult response = await http_vault_client.SendAsync(cancellationToken);
         return response.Failed is true
             ? Secret.Failure(response.Error)
@@ -41,7 +41,7 @@ public sealed class ApproleClient(HttpVaultHeaders vault_headers, string base_ad
     {
         string relative_url = ApiUrl.AuthApproleRoleId.FormatWith(new { rolename });
         Uri request_uri = new(base_uri, relative_url);
-        HttpVaultClient http_vault_client = new(HttpMethod.Get, vault_headers, headers, request_uri, null, _server_certificate_custom_validation_callback);
+        HttpVaultClient http_vault_client = new(http_client_factory, HttpMethod.Get, vault_headers, headers, request_uri, null);
         JsonDocumentResult response = http_vault_client.Send(cancellationToken);
         return response.Failed is true
             ? Secret.Failure(response.Error)
@@ -52,7 +52,7 @@ public sealed class ApproleClient(HttpVaultHeaders vault_headers, string base_ad
     {
         string relative_url = ApiUrl.AuthApproleSecretId.FormatWith(new { rolename });
         Uri request_uri = new(base_uri, relative_url);
-        HttpVaultClient http_vault_client = new(HttpMethod.Post, vault_headers, headers, request_uri, new { }, _server_certificate_custom_validation_callback);
+        HttpVaultClient http_vault_client = new(http_client_factory, HttpMethod.Post, vault_headers, headers, request_uri, new { });
         JsonDocumentResult response = await http_vault_client.SendAsync(cancellationToken);
         return response.Failed is true
             ? Secret.Failure(response.Error)
@@ -63,7 +63,7 @@ public sealed class ApproleClient(HttpVaultHeaders vault_headers, string base_ad
     {
         string relative_url = ApiUrl.AuthApproleSecretId.FormatWith(new { rolename });
         Uri request_uri = new(base_uri, relative_url);
-        HttpVaultClient http_vault_client = new(HttpMethod.Post, vault_headers, headers, request_uri, new { }, _server_certificate_custom_validation_callback);
+        HttpVaultClient http_vault_client = new(http_client_factory, HttpMethod.Post, vault_headers, headers, request_uri, new { });
         JsonDocumentResult response = http_vault_client.Send(cancellationToken);
         return response.Failed is true
             ? Secret.Failure(response.Error)

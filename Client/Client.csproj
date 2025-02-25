@@ -1,13 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-		<LangVersion>12.0</LangVersion>
+		<TargetFramework>net9.0</TargetFramework>
+		<LangVersion>13.0</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<AssemblyName>HashiVaultCs</AssemblyName>
 		<RootNamespace>HashiVaultCs</RootNamespace>
-		<Version>1.1.1.6</Version>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<Authors>kibblewhite &lt;kibblewhite@live.com&gt;</Authors>
 		<Description>A .NET library for interacting with HashiCorp Vault. Features are minimal, please read documentation.</Description>
@@ -15,12 +14,13 @@
 		<PackageIcon>csharp-vault-hashicorp.png</PackageIcon>
 		<RepositoryUrl>https://github.com/kibblewhite/HashiVaultCs</RepositoryUrl>
 		<PackageTags>HashiCorp;Vault;</PackageTags>
-		<AssemblyVersion>1.1.1.6</AssemblyVersion>
-		<FileVersion>1.1.1.6</FileVersion>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<ApplicationIcon>csharp-vault-hashicorp.ico</ApplicationIcon>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 		<NeutralLanguage>en-GB</NeutralLanguage>
+		<AssemblyVersion>1.1.1.7</AssemblyVersion>
+		<FileVersion>1.1.1.7</FileVersion>
+		<Version>1.1.1.7</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -39,6 +39,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="FormatWith" Version="3.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.2" />
 	</ItemGroup>
 
 	<ItemGroup>

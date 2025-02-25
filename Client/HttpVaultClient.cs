@@ -3,10 +3,11 @@ using HashiVaultCs.Models;
 
 namespace HashiVaultCs;
 
-public sealed class HttpVaultClient : IHttpVaultClient
+public class HttpVaultClient : IHttpVaultClient
 {
     private const string _media_type = "application/json";
-    private readonly TimeSpan _http_client_timeout = TimeSpan.FromSeconds(6);
+    private readonly TimeSpan _http_client_timeout = TimeSpan.FromSeconds(60);
+    private readonly IHttpClientFactory _http_client_factory;
     private readonly HttpClient _http_client;
     private readonly HttpRequestMessage _http_request_message;
     private readonly List<HttpMethod> _supported_http_methods_list = [HttpMethod.Get, HttpMethod.Post];
@@ -20,6 +21,7 @@ public sealed class HttpVaultClient : IHttpVaultClient
     /// <summary>
     /// Build the HTTP Client for making requests to the Vault
     /// </summary>
+    /// <param name="http_client_factory"></param>
     /// <param name="method">GET or POST</param>
     /// <param name="vault_headers">The Vault specific HTTP headers</param>
     /// <param name="headers">Any extract HTTP headers</param>
@@ -28,8 +30,13 @@ public sealed class HttpVaultClient : IHttpVaultClient
     /// <param name="server_certificate_custom_validation_callback">The delegate for handling SSL server certificate validation. It is part of the HttpClientHandler and can be used to manage self-signed certificates.</param>
     /// <exception cref="NotSupportedException"></exception>
     /// <exception cref="ArgumentNullException"></exception>
-    public HttpVaultClient(HttpMethod method, HttpVaultHeaders vault_headers, IReadOnlyDictionary<string, string> headers, Uri request_uri, object? data = null, Func<HttpRequestMessage, X509Certificate2?, X509Chain?, SslPolicyErrors, bool>? server_certificate_custom_validation_callback = null)
+    public HttpVaultClient(IHttpClientFactory http_client_factory, HttpMethod method, HttpVaultHeaders vault_headers, IReadOnlyDictionary<string, string> headers, Uri request_uri, object? data = null)
+        : this(method, vault_headers, headers, request_uri, data) => _http_client_factory = http_client_factory;
+
+    protected HttpVaultClient(HttpMethod method, HttpVaultHeaders vault_headers, IReadOnlyDictionary<string, string> headers, Uri request_uri, object? data = null)
     {
+        _http_client_factory ??= new EmptyHttpClientFactory();
+
         // Currently only HTTP Methods GET & POST is supported.
         if (_supported_http_methods_list.Contains(method) is false)
         {
@@ -58,16 +65,8 @@ public sealed class HttpVaultClient : IHttpVaultClient
             _http_request_message.Headers.Add(kvp.Key, kvp.Value);
         }
 
-        HttpClientHandler handler = new();
-        if (server_certificate_custom_validation_callback is not null)
-        {
-            handler.ServerCertificateCustomValidationCallback = server_certificate_custom_validation_callback;
-        }
-
-        _http_client = new(handler)
-        {
-            Timeout = _http_client_timeout
-        };
+        _http_client = _http_client_factory.CreateClient(nameof(HttpVaultClient));
+        _http_client.Timeout = _http_client_timeout;
 
         _http_client.DefaultRequestHeaders.Accept.Clear();
         _http_client.DefaultRequestHeaders.Accept.Add(new(_media_type));

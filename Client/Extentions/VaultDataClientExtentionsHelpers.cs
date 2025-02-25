@@ -7,19 +7,24 @@ namespace HashiVaultCs.Extentions;
 
 public static class VaultDataClientExtentionsHelpers
 {
-    public static DataClientResult CreateDataClient(this DataClientCredentials credentials, bool accept_any_server_certificate = false)
+    /// <summary>
+    /// Creates a <see cref="DataClient"/> instance using userpass and AppRole authentication against a Vault server.
+    /// </summary>
+    /// <param name="credentials">The credentials used to authenticate with the Vault server.</param>
+    /// <param name="http_client_factory">The factory used to create <see cref="HttpClient"/> instances for making HTTP requests.</param>
+    /// <returns>
+    /// A <see cref="DataClientResult"/> containing either a successfully authenticated <see cref="DataClient"/> 
+    /// or a failure result with an error message.
+    /// </returns>
+    public static DataClientResult CreateDataClient(this DataClientCredentials credentials, IHttpClientFactory http_client_factory)
     {
         // We'll use this to build out HTTP vault headers
         HttpVaultHeaders http_vault_headers;
         VaultHeadersDictionary vault_headers = [];
 
-        Func<HttpRequestMessage, X509Certificate2?, X509Chain?, SslPolicyErrors, bool>? dangerous_accept_any_server_certificate_validator = accept_any_server_certificate is true
-            ? HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-            : null;
-
         // Login to the vault using our userpass authentication creditials
         http_vault_headers = HttpVaultHeaders.Build(vault_headers.AsReadOnly());
-        UserpassClient userpass_client = new(http_vault_headers, credentials.BaseAddress, dangerous_accept_any_server_certificate_validator);
+        UserpassClient userpass_client = new(http_client_factory, http_vault_headers, credentials.BaseAddress);
         Secret userpass_login_response = userpass_client.Login(credentials.Username, new Models.Requests.Auth.Userpass.Login
         {
             Password = credentials.Password
@@ -39,7 +44,7 @@ public static class VaultDataClientExtentionsHelpers
 
         // Success the AppRole client in order to send requests against
         http_vault_headers = HttpVaultHeaders.Build(vault_headers.AsReadOnly());
-        ApproleClient approle_client = new(http_vault_headers, credentials.BaseAddress, dangerous_accept_any_server_certificate_validator);
+        ApproleClient approle_client = new(http_client_factory, http_vault_headers, credentials.BaseAddress);
 
         // Get the role-id and generate a secret-id for the approle 'staging' as logged in user
         Secret approle_roleid_response = approle_client.RoleId(credentials.Rolename, ImmutableDictionary<string, string>.Empty);
@@ -87,7 +92,7 @@ public static class VaultDataClientExtentionsHelpers
 
         // Success the Data Client to use for reading and writing kv secrets
         http_vault_headers = HttpVaultHeaders.Build(vault_headers.AsReadOnly());
-        DataClient data_client = new(http_vault_headers, credentials.BaseAddress, dangerous_accept_any_server_certificate_validator);
+        DataClient data_client = new(http_client_factory, http_vault_headers, credentials.BaseAddress);
 
         return DataClientResult.Success(data_client);
     }

@@ -3,10 +3,10 @@
 ## Run the following command with corresponding the image id: docker run --name hashivaultcs-dev-x64 -td <image-id />
 ## This will run an empty container (nothing will happen) - connect and retrieve the files from /app/runtime
 
-FROM mcr.microsoft.com/dotnet/runtime:8.0-jammy-amd64 AS base-x64
+FROM mcr.microsoft.com/dotnet/runtime:9.0-bookworm-slim-amd64 AS base-x64
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy-amd64 AS build-x64
+FROM mcr.microsoft.com/dotnet/sdk:9.0-bookworm-slim-amd64 AS build-x64
 WORKDIR /src-x64
 
 COPY ["Client/Client.csproj", "Client/"]

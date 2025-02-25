@@ -348,7 +348,7 @@ curl --header "X-Vault-Token: hvs.CAESILacrRZCXR-e1GTcitvww7EdFdq7C4ftIRDro6lkE3
 This is here just to remind me of how to publish to nuget, however do refer to the `Dockerfile.nuget.publish` file:
 
 ```bash
-docker run -it -v ${PWD}:/root/HashiVaultCs --entrypoint "/bin/bash" "mcr.microsoft.com/dotnet/sdk:7.0-jammy-amd64"
+docker run -it -v ${PWD}:/root/HashiVaultCs --entrypoint "/bin/bash" "mcr.microsoft.com/dotnet/sdk:9.0-bookworm-slim-amd64"
 cd ~/HashiVaultCs/
 dotnet build -c Release
 dotnet pack -c Release -o "Client/bin/Release/net7.0/publish"
