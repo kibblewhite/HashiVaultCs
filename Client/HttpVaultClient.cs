@@ -6,8 +6,7 @@ namespace HashiVaultCs;
 public class HttpVaultClient : IHttpVaultClient
 {
     private const string _media_type = "application/json";
-    private readonly TimeSpan _http_client_timeout = TimeSpan.FromSeconds(60);
-    private readonly IHttpClientFactory _http_client_factory;
+    private readonly TimeSpan _http_client_timeout = TimeSpan.FromSeconds(10);
     private readonly HttpClient _http_client;
     private readonly HttpRequestMessage _http_request_message;
     private readonly List<HttpMethod> _supported_http_methods_list = [HttpMethod.Get, HttpMethod.Post];
@@ -31,12 +30,7 @@ public class HttpVaultClient : IHttpVaultClient
     /// <exception cref="NotSupportedException"></exception>
     /// <exception cref="ArgumentNullException"></exception>
     public HttpVaultClient(IHttpClientFactory http_client_factory, HttpMethod method, HttpVaultHeaders vault_headers, IReadOnlyDictionary<string, string> headers, Uri request_uri, object? data = null)
-        : this(method, vault_headers, headers, request_uri, data) => _http_client_factory = http_client_factory;
-
-    protected HttpVaultClient(HttpMethod method, HttpVaultHeaders vault_headers, IReadOnlyDictionary<string, string> headers, Uri request_uri, object? data = null)
     {
-        _http_client_factory ??= new EmptyHttpClientFactory();
-
         // Currently only HTTP Methods GET & POST is supported.
         if (_supported_http_methods_list.Contains(method) is false)
         {
@@ -65,7 +59,7 @@ public class HttpVaultClient : IHttpVaultClient
             _http_request_message.Headers.Add(kvp.Key, kvp.Value);
         }
 
-        _http_client = _http_client_factory.CreateClient(nameof(HttpVaultClient));
+        _http_client = http_client_factory.CreateClient(nameof(HttpVaultClient));
         _http_client.Timeout = _http_client_timeout;
 
         _http_client.DefaultRequestHeaders.Accept.Clear();
