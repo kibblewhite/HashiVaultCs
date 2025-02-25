@@ -51,7 +51,22 @@ export VAULT_ADDR=http://127.0.0.1:8200
 
 The vault token value can be the root vault token or other valid vault token.
 
+### In your code, the HttpClientFactory
 
+As there is a need for the IHttpClientFactory, please ensure the following is in the DI registry steps.
+
+```csharp
+    builder.Services.AddHttpClient("HttpVaultClient").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+    {   // allow self-signed certificates
+        ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+    });
+```
+
+And now when you use the following method, you'll need to pass the IHttpClientFactory into it.
+
+```csharp
+    public static DataClientResult CreateDataClient(this DataClientCredentials credentials, IHttpClientFactory http_client_factory) { /** ... */ }
+```
 
 ------
 
