@@ -15,5 +15,12 @@ COPY . .
 
 WORKDIR "/src-x64/Client"
 RUN dotnet build "Client.csproj" -c Release -o /app/build-x64/bin/Release/net9.0
-RUN dotnet pack "Client.csproj" -c Release -o /app/build-x64/bin/Release/net9.0/publish
-RUN dotnet nuget push /app/build-x64/bin/Release/net9.0/publish/HashiVaultCs.*.nupkg -s $NUGET_URL -k $NUGET_KEY
+
+# Pack the project and specify the output directory explicitly
+RUN dotnet pack "Client.csproj" -c Release -o /app/packages
+
+# Publish the project (optional, if needed for other purposes)
+RUN dotnet publish "Client.csproj" -c Release -o /app/publish
+
+# Push the .nupkg file to NuGet
+RUN dotnet nuget push /app/packages/*.nupkg -s $NUGET_URL -k $NUGET_KEY
