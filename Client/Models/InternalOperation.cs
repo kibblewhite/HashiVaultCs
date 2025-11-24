@@ -1,4 +1,4 @@
-﻿namespace HashiVaultCs.Models.Responses;
+﻿namespace HashiVaultCs.Models;
 
 internal sealed class InternalOperation<T>
 {

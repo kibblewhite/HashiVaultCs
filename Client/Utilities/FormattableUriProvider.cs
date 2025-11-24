@@ -1,4 +1,6 @@
-﻿namespace HashiVaultCs.Utilities;
+﻿using HashiVaultCs.Models;
+
+namespace HashiVaultCs.Utilities;
 
 internal static class FormattableUriProvider
 {

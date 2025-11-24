@@ -1,3 +1,4 @@
+using HashiVaultCs.Models;
 using HashiVaultCs.Utilities;
 
 namespace Tests;
