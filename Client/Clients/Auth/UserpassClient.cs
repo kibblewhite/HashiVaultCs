@@ -8,8 +8,18 @@ public sealed class UserpassClient(IHttpClientFactory http_client_factory, HttpV
 {
     public async Task<Secret> LoginAsync(string username, Login data, IImmutableDictionary<string, string> headers, CancellationToken cancellationToken = default)
     {
-        string relative_url = ApiUrl.AuthUserpassLogin.FormatWith(new { username });
-        Uri request_uri = new(base_uri, relative_url);
+        Dictionary<FormattableArgument, string> values = new()
+        {
+            { FormattableArgument.Username, username }
+        };
+
+        InternalOperation<string> relative_url = FormattableUriProvider.AuthUserpassLogin.GetPath(values);
+        if (relative_url.HasFailed)
+        {
+            return Secret.Failure(relative_url.ErrorMessage ?? "An unknown error occurred while attempting to retrieve the AppRole login URL.");
+        }
+
+        Uri request_uri = new(base_uri, relative_url.Result);
         HttpVaultClient http_vault_client = new(http_client_factory, HttpMethod.Post, vault_headers, headers, request_uri, data);
         JsonDocumentResult response = await http_vault_client.SendAsync(cancellationToken);
         return response.Failed is true
@@ -19,8 +29,18 @@ public sealed class UserpassClient(IHttpClientFactory http_client_factory, HttpV
 
     public Secret Login(string username, Login data, IImmutableDictionary<string, string> headers, CancellationToken cancellationToken = default)
     {
-        string relative_url = ApiUrl.AuthUserpassLogin.FormatWith(new { username });
-        Uri request_uri = new(base_uri, relative_url);
+        Dictionary<FormattableArgument, string> values = new()
+        {
+            { FormattableArgument.Username, username }
+        };
+
+        InternalOperation<string> relative_url = FormattableUriProvider.AuthUserpassLogin.GetPath(values);
+        if (relative_url.HasFailed)
+        {
+            return Secret.Failure(relative_url.ErrorMessage ?? "An unknown error occurred while attempting to retrieve the AppRole login URL.");
+        }
+
+        Uri request_uri = new(base_uri, relative_url.Result);
         HttpVaultClient http_vault_client = new(http_client_factory, HttpMethod.Post, vault_headers, headers, request_uri, data);
         JsonDocumentResult response = http_vault_client.Send(cancellationToken);
         return response.Failed is true

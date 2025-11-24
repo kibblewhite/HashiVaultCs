@@ -1,0 +1,45 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="csharp-vault-hashicorp.ico" />
+    <File Path="csharp-vault-hashicorp.png" />
+    <File Path="Dockerfile.build.arm64" />
+    <File Path="Dockerfile.build.x64" />
+    <File Path="Dockerfile.nuget.publish" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Solution Items/Setup/">
+    <File Path="Setup/docker-compose.yml" />
+    <File Path="Setup/Dockerfile" />
+    <File Path="Setup/vault-db.sql" />
+  </Folder>
+  <Folder Name="/Solution Items/Setup/vault/">
+    <File Path="Setup/vault/entrypoint.sh" />
+    <File Path="Setup/vault/unseal.sh" />
+  </Folder>
+  <Folder Name="/Solution Items/Setup/vault/config/">
+    <File Path="Setup/vault/config/default.hcl" />
+  </Folder>
+  <Folder Name="/Solution Items/Setup/vault/config/certs/">
+    <File Path="Setup/vault/config/certs/.gitignore" />
+    <File Path="Setup/vault/config/certs/README.md" />
+    <File Path="Setup/vault/config/certs/req.cnf" />
+    <File Path="Setup/vault/config/certs/vault-svc.crt" />
+    <File Path="Setup/vault/config/certs/vault-svc.key" />
+    <File Path="Setup/vault/config/certs/vault-svc.pem" />
+  </Folder>
+  <Folder Name="/Solution Items/Setup/vault/policies/">
+    <File Path="Setup/vault/policies/staging-manage.hcl" />
+  </Folder>
+  <Folder Name="/Solution Items/Setup/vault/policies/approles/">
+    <File Path="Setup/vault/policies/approles/staging-approle.hcl" />
+  </Folder>
+  <Folder Name="/Solution Items/Setup/vault/policies/userpass/">
+    <File Path="Setup/vault/policies/userpass/staging-userpass.hcl" />
+  </Folder>
+  <Project Path="Client/Client.csproj" />
+  <Project Path="Tests/Tests.csproj">
+    <Build Solution="Release|*" Project="false" />
+  </Project>
+</Solution>

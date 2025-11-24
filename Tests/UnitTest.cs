@@ -18,11 +18,11 @@ public partial class UnitTest
     public UnitTest()
     {
         _base_address = "https://vault.svc.internal.local:8200";
-        _username = "testing";
+        _username = "staging";
         _password = "development-password";
-        _rolename = "testing";
+        _rolename = "staging";
         _engine = "kv";
-        _secrets_path = "testing/service.svc";
+        _secrets_path = "staging/service.svc";
         _http_client_factory = new CustomHttpClientFactory();
     }
 
@@ -35,7 +35,7 @@ public partial class UnitTest
         Assert.IsFalse(data_client_result.Failed, data_client_result.Error);
 
         DataClient data_client = data_client_result.Client;
-        TestingModel model = new()
+        TestingModel _ = new()
         {
             Id = Guid.NewGuid().ToString(),
             Name = Guid.NewGuid().ToString(),
@@ -49,7 +49,7 @@ public partial class UnitTest
         Secret data_get_response = data_client.Get(_engine, _secrets_path, ImmutableDictionary<string, string>.Empty);
         Assert.IsFalse(data_get_response.Failed);
 
-        string? response_json = data_get_response.Data?.RootElement.GetProperty("data").GetRawText();
+        // data_get_response.Data?.RootElement.GetProperty("data").GetRawText();
 
         //  TestingModel? response_model = JsonSerializer.Deserialize<TestingModel>(response_json ?? "{}");
 
@@ -99,3 +99,4 @@ public partial class UnitTest
         Assert.AreEqual(model.NestedValue.Value, response_model?.NestedValue?.Value);
     }
 }
+
