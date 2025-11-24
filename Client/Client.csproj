@@ -18,9 +18,9 @@
 		<ApplicationIcon>csharp-vault-hashicorp.ico</ApplicationIcon>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 		<NeutralLanguage>en-GB</NeutralLanguage>
-		<AssemblyVersion>1.1.1.8</AssemblyVersion>
-		<FileVersion>1.1.1.8</FileVersion>
-		<Version>1.1.1.8</Version>
+		<AssemblyVersion>1.1.1.9</AssemblyVersion>
+		<FileVersion>1.1.1.9</FileVersion>
+		<Version>1.1.1.9</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
