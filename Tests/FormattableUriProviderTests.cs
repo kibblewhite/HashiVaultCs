@@ -15,15 +15,14 @@ public class FormattableUriProviderTests
             { FormattableArgument.Path, "my/path" }
         };
 
-        // Act
-        InternalOperation<string> result = FormattableUriProvider.SecretsEngineDataPath.GetPath(values);
-
         Dictionary<FormattableArgument, string> second_values = new()
         {
             { FormattableArgument.Engine, "my-engine" },
             { FormattableArgument.Path, "my/path" }
         };
 
+        // Act
+        InternalOperation<string> result = FormattableUriProvider.SecretsEngineDataPath.GetPath(values);
         InternalOperation<string> second_result = FormattableUriProvider.SecretsEngineDataPath.GetPath(second_values);
 
         // Assert

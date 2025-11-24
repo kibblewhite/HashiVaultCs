@@ -56,7 +56,7 @@ public static class VaultDataClientExtentionsHelpers
         string? role_id = approle_roleid_response.Data?.RootElement.GetProperty("role_id").GetString();
         if (string.IsNullOrWhiteSpace(role_id) is true)
         {
-            return DataClientResult.Failure($"Could not retrieve 'role_id' from returned response from: {ApiUrl.AuthApproleRoleId}");
+            return DataClientResult.Failure($"Could not retrieve 'role_id' from returned response from: {FormattableUriProvider.AuthApproleRoleId.Value}");
         }
 
         // Generate a secret-id
@@ -69,7 +69,7 @@ public static class VaultDataClientExtentionsHelpers
         string? secret_id = approle_secretid_response.Data?.RootElement.GetProperty("secret_id").GetString();
         if (string.IsNullOrWhiteSpace(secret_id) is true)
         {
-            return DataClientResult.Failure($"Could not retrieve 'secret_id' from returned response from: {ApiUrl.AuthApproleSecretId}");
+            return DataClientResult.Failure($"Could not retrieve 'secret_id' from returned response from: {FormattableUriProvider.AuthApproleSecretId.Value}");
         }
 
         // Generate a token using the previously retrieved role-id and newly created secret-id. 
