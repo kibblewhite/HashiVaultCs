@@ -1,6 +1,6 @@
 ﻿namespace HashiVaultCs.Models.Responses;
 
-public sealed class InternalOperation<T>
+internal sealed class InternalOperation<T>
 {
     public required T Result { get; init; }
     public bool HasFailed { get; init; }
