@@ -3,6 +3,7 @@ global using HashiVaultCs.Models.Responses;
 global using HashiVaultCs.Utilities;
 global using System.Collections.Immutable;
 global using System.ComponentModel.DataAnnotations;
+global using System.Net.Mime;
 global using System.Reflection;
 global using System.Text;
 global using System.Text.Json;

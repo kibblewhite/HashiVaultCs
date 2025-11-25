@@ -5,7 +5,7 @@ namespace HashiVaultCs;
 
 public class HttpVaultClient : IHttpVaultClient
 {
-    private const string _media_type = "application/json";
+    private const string _media_type = MediaTypeNames.Application.Json;
     private readonly TimeSpan _http_client_timeout = TimeSpan.FromSeconds(10);
     private readonly HttpClient _http_client;
     private readonly HttpRequestMessage _http_request_message;
